@@ -981,6 +981,11 @@
       font-weight: 600;
       font-size: 15px;
       color: #333;
+      transition: color 0.3s;
+    }
+    
+    .disabled-section label {
+        color: #aaa;
     }
 
     input[type="text"], select { 
@@ -1006,9 +1011,9 @@
     }
 
     input[type="text"]:disabled {
-      background-color: #f5f5f5 !important;
-      color: #aaa !important;
-      border-color: #ddd !important;
+      background-color: #f9f9f9 !important; 
+      color: #ccc !important;
+      border-color: #eee !important;
       cursor: not-allowed;
     }
 
@@ -1065,12 +1070,23 @@
         margin-bottom: 0 !important;
         display: inline-block !important;
     }
+    
+    .radio-group input[type="radio"]:disabled + label,
+    .radio-group input[type="radio"]:disabled {
+        color: #aaa;
+        cursor: not-allowed;
+    }
 
     .section-box {
         margin-bottom: 10px;
         padding: 0;
         background: transparent;
         border: none;
+    }
+    
+    #creative_details_wrapper, #engagement_details_wrapper {
+        display: block;
+        transition: opacity 0.3s;
     }
 
     .status-message {
@@ -1135,7 +1151,7 @@
 
       <label for="county">Esküvő helyszíne (Település)</label>
       <div class="input-wrapper">
-        <input type="text" id="county" name="county" placeholder="Kezdd el írni a település nevét..." autocomplete="off">
+        <input type="text" id="county" name="county" placeholder="Település neve..." autocomplete="off">
         <div id="status-county" class="status-message"></div>
       </div>
 
@@ -1143,11 +1159,11 @@
       <div class="section-box">
           <label>Mikor szeretnétek megtartani?</label>
           <div class="radio-group">
-            <label><input type="radio" name="creative_timing" value="sameDay" checked> Aznap </label>
+            <label><input type="radio" name="creative_timing" value="sameDay" checked> Aznap</label>
             <label><input type="radio" name="creative_timing" value="different"> Külön napon </label>
           </div>
           
-          <div id="creative_details_wrapper" style="display:none;">
+          <div id="creative_details_wrapper">
               <label>Tudod már a helyszínt?</label>
               <div class="radio-group">
                   <label><input type="radio" name="creative_known" value="yes" disabled> Igen</label>
@@ -1155,7 +1171,7 @@
               </div>
 
               <div class="input-wrapper">
-                <input type="text" id="county_creative" name="county_creative" placeholder="Település neve..." autocomplete="off" disabled>
+                <input type="text" id="county_creative" name="county_creative" placeholder="Aznap, a fő helyszínen." autocomplete="off" disabled>
                 <div id="status-county_creative" class="status-message"></div>
               </div>
           </div>
@@ -1169,7 +1185,7 @@
             <label><input type="radio" name="engagement_needed" value="yes"> Igen</label>
           </div>
 
-          <div id="engagement_details_wrapper" style="display:none;">
+          <div id="engagement_details_wrapper">
               <label>Tudod már a helyszínt?</label>
               <div class="radio-group">
                   <label><input type="radio" name="engagement_known" value="yes" disabled> Igen</label>
@@ -1177,7 +1193,7 @@
               </div>
 
               <div class="input-wrapper">
-                <input type="text" id="county_2" name="county_2" placeholder="Település neve..." autocomplete="off" disabled>
+                <input type="text" id="county_2" name="county_2" placeholder="Nem kérek jegyesfotózást." autocomplete="off" disabled>
                 <div id="status-county_2" class="status-message"></div>
               </div>
           </div>
@@ -1230,7 +1246,6 @@
                         .map(item => {
                             let displayName = item.name;
                             let details = "";
-                            
                             if (item.admin1 && item.admin1 !== item.name) {
                                 details = item.admin1;
                             }
@@ -1246,7 +1261,7 @@
                     if (validSuggestions.length > 0) {
                         showAutocomplete(inputElement, validSuggestions);
                     } else {
-                        if(statusEl) statusEl.textContent = "Nincs magyar találat.";
+                        if(statusEl) statusEl.textContent = "Nincs találat.";
                         hideAutocomplete();
                     }
                 } else {
@@ -1362,7 +1377,7 @@
                         return data.routes[0].distance / 1000;
                     }
                 }
-                throw new Error('Error');
+                throw new Error('OSRM hiba');
             } catch (error) {
                 const R = 6371; 
                 const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -1395,18 +1410,26 @@
                         const timing = document.querySelector('input[name="creative_timing"]:checked').value;
                         const isDifferent = (timing === 'different');
                         
-                        creativeWrapper.style.display = isDifferent ? 'block' : 'none';
                         creativeKnownRadios.forEach(r => r.disabled = !isDifferent);
                         
                         const isKnown = document.querySelector('input[name="creative_known"]:checked').value === 'yes';
                         
-                        if (isDifferent && isKnown) {
-                            creativeInput.disabled = false;
-                            creativeInput.placeholder = "Település neve...";
+                        if (isDifferent) {
+                            creativeWrapper.classList.remove('disabled-section');
+                            if (isKnown) {
+                                creativeInput.disabled = false;
+                                creativeInput.placeholder = "Település neve...";
+                            } else {
+                                creativeInput.disabled = true;
+                                creativeInput.value = "";
+                                creativeInput.placeholder = "Helyszín később...";
+                                document.getElementById('status-county_creative').textContent = "";
+                            }
                         } else {
+                            creativeWrapper.classList.add('disabled-section');
                             creativeInput.disabled = true;
                             creativeInput.value = "";
-                            creativeInput.placeholder = isDifferent ? "Helyszín később..." : "Aznap, a fő helyszínen.";
+                            creativeInput.placeholder = "Aznap, a fő helyszínen.";
                             document.getElementById('status-county_creative').textContent = "";
                         }
                     }
@@ -1423,18 +1446,26 @@
                     function updateEngagementState() {
                         const needed = document.querySelector('input[name="engagement_needed"]:checked').value === 'yes';
                         
-                        engagementWrapper.style.display = needed ? 'block' : 'none';
                         engagementKnownRadios.forEach(r => r.disabled = !needed);
                         
                         const isKnown = document.querySelector('input[name="engagement_known"]:checked').value === 'yes';
                         
-                        if (needed && isKnown) {
-                            engagementInput.disabled = false;
-                            engagementInput.placeholder = "Település neve...";
+                        if (needed) {
+                            engagementWrapper.classList.remove('disabled-section');
+                            if (isKnown) {
+                                engagementInput.disabled = false;
+                                engagementInput.placeholder = "Település neve...";
+                            } else {
+                                engagementInput.disabled = true;
+                                engagementInput.value = "";
+                                engagementInput.placeholder = "Helyszín később...";
+                                document.getElementById('status-county_2').textContent = "";
+                            }
                         } else {
+                            engagementWrapper.classList.add('disabled-section');
                             engagementInput.disabled = true;
                             engagementInput.value = "";
-                            engagementInput.placeholder = needed ? "Helyszín később..." : "Nem kérek jegyesfotózást.";
+                            engagementInput.placeholder = "Nem kérek jegyesfotózást.";
                             document.getElementById('status-county_2').textContent = "";
                         }
                     }
@@ -1451,7 +1482,7 @@
 
                         try {
                             let countyVal = document.getElementById('county').value.trim();
-                            if (!countyVal || countyVal.length < 2) throw new Error("Kérlek add meg a fő helyszínt (Település)!");
+                            if (!countyVal || countyVal.length < 2) throw new Error("Kérlek add meg a fő helyszínt");
 
                             let key = countyVal.toLowerCase().trim();
                             let coords1 = addressCoordinatesCache[key];
@@ -1538,6 +1569,7 @@
 
     })();
   </script>
+</div>
 </div>
 </div>
   </div>
