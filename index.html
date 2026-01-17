@@ -952,134 +952,7 @@
 							<div class="fb-element fb-element--customCode fb-element--el-mdxgnbox fb-element--m-lowest" data-uuid="5Ga10Y">
     <div class="fb-element__content">
         <div class="fb-element-type-custom-code">
-    <div class="fb-element-type-custom-code__content">
-      <style>
-select {
-margin-left: 12px;
-margin-top: 8px;
-}
-
-input, select, button {
-      margin-bottom: 12px;
-      padding: 8px;
-      font-size: 14px;
-      border-radius: 0px;
-      border: 0px solid #ccc;
-    }
-
-    input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
-      background: #F2EFEA; 
-      border: none;
-      height: 8px;
-      border-radius: 0px;
-    }
-    input[type="range"]::-webkit-slider-runnable-track {
-      height: 8px;
-      background: #FFFFFF; 
-      border-radius: 0px;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #a06539; 
-      border: 2px solid #a06539;
-      cursor: pointer;
-      margin-top: -6px;
-    }
-
-  
-    input[type="range"]::-moz-range-track {
-      height: 8px;
-      background: #FFFFFF;
-      border-radius: 0px;
-    }
-
-    input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #a06539; 
-      border: 2px solid #F2EFEA;
-      cursor: pointer;
-    }
-
-    input[type="range"]:focus {
-      outline: none;
-    }
-    button {
-      background-color: #a06539;
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-      padding: 12px;
-      border-radius: 0px;
-      margin-top: 20px;
-    }
-
-    button:hover {
-      background-color: #8b5530;
-    }
-
-    button:focus {
-      outline: none;
-    }
-
-    .checkbox-radio-container input {
-      margin-right: 8px;
-      accent-color: #a06539;
-    }
-
-#radioButtons {
-      margin-left: 20px; 
-      margin-bottom: 20px; 
-    }
-#quoteResult {
-      text-align: left;
-      margin-top: 20px;
-      font-size: 14px;
-      color: #a06539;
-      margin-bottom: 0px; 
-    }
-
-    .slider-container {
-      display: flex;
-      flex-direction: column;
-      align-items: left;
-    }
-
-    .slider-container input {
-      width: 80%;
-    }
-
-    .slider-container .slider-value {
-      display: flex;
-      align-items: center;
-      margin-top: 0px;
-      margin-bottom: 12px;
-      margin-left: 28px;
-      font-size: 12px;
-      font-weight: 900;
-      color: #a06539;
-    }
-
-    .slider-container .slider-value span {
-      margin-right: 5px;
-    }
-
-    .checkbox-radio-container {
-      margin-top: 12px;
-      color: #333;
-    }
-
-</style>
-
-  <div class="fb-element-type-custom-code__content">
+<div class="fb-element-type-custom-code__content">
   <style>
     .calculator {
       font-family: 'Poppins', sans-serif;
@@ -1092,14 +965,14 @@ input, select, button {
     }
     
     h3 {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
-      color: #333;
-      margin: 25px 0 15px 0;
+      color: #a06539;
+      margin: 30px 0 15px 0;
       text-transform: uppercase;
       letter-spacing: 1px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 5px;
+      border: none;
+      padding: 0;
     }
 
     label {
@@ -1194,11 +1067,10 @@ input, select, button {
     }
 
     .section-box {
-        margin-bottom: 20px;
-        padding: 20px;
-        background: #fafafa;
-        border: 1px solid #eee;
-        border-radius: 6px;
+        margin-bottom: 10px;
+        padding: 0;
+        background: transparent;
+        border: none;
     }
 
     .status-message {
@@ -1251,7 +1123,7 @@ input, select, button {
   <div class="calculator">
     <form id="quoteForm">
       
-      <h3>1. Alapadatok</h3>
+      <h3>Alapadatok</h3>
       
       <label for="serviceLength">Mennyi időt töltsek az esküvőtökön?</label>
       <div class="slider-container">
@@ -1261,13 +1133,13 @@ input, select, button {
         </div>
       </div>
 
-      <label for="county">Esküvő helyszíne (Város/Utca)</label>
+      <label for="county">Esküvő helyszíne (Település)</label>
       <div class="input-wrapper">
-        <input type="text" id="county" name="county" placeholder="Kezdd el írni a pontos címet..." autocomplete="off">
+        <input type="text" id="county" name="county" placeholder="Kezdd el írni a település nevét..." autocomplete="off">
         <div id="status-county" class="status-message"></div>
       </div>
 
-      <h3>2. Kreatív fotózás</h3>
+      <h3>Kreatív fotózás</h3>
       <div class="section-box">
           <label>Mikor szeretnétek megtartani?</label>
           <div class="radio-group">
@@ -1275,21 +1147,21 @@ input, select, button {
             <label><input type="radio" name="creative_timing" value="different"> Külön napon </label>
           </div>
           
-          <div id="creative_details_wrapper">
-              <label>Tudod már a pontos helyszínt?</label>
+          <div id="creative_details_wrapper" style="display:none;">
+              <label>Tudod már a helyszínt?</label>
               <div class="radio-group">
                   <label><input type="radio" name="creative_known" value="yes" disabled> Igen</label>
                   <label><input type="radio" name="creative_known" value="no" checked disabled> Még nem</label>
               </div>
 
               <div class="input-wrapper">
-                <input type="text" id="county_creative" name="county_creative" placeholder="Kezdd el írni a címet..." autocomplete="off" disabled>
+                <input type="text" id="county_creative" name="county_creative" placeholder="Település neve..." autocomplete="off" disabled>
                 <div id="status-county_creative" class="status-message"></div>
               </div>
           </div>
       </div>
 
-      <h3>3. Jegyesfotózás</h3>
+      <h3>Jegyesfotózás</h3>
       <div class="section-box">
           <label>Szeretnétek jegyesfotózást?</label>
           <div class="radio-group">
@@ -1297,21 +1169,21 @@ input, select, button {
             <label><input type="radio" name="engagement_needed" value="yes"> Igen</label>
           </div>
 
-          <div id="engagement_details_wrapper">
-              <label>Tudod már a pontos helyszínt?</label>
+          <div id="engagement_details_wrapper" style="display:none;">
+              <label>Tudod már a helyszínt?</label>
               <div class="radio-group">
                   <label><input type="radio" name="engagement_known" value="yes" disabled> Igen</label>
                   <label><input type="radio" name="engagement_known" value="no" checked disabled> Még nem</label>
               </div>
 
               <div class="input-wrapper">
-                <input type="text" id="county_2" name="county_2" placeholder="Kezdd el írni a címet..." autocomplete="off" disabled>
+                <input type="text" id="county_2" name="county_2" placeholder="Település neve..." autocomplete="off" disabled>
                 <div id="status-county_2" class="status-message"></div>
               </div>
           </div>
       </div>
 
-      <h3>4. Egyéb</h3>
+      <h3>Egyéb</h3>
       <div class="checkbox-radio-container">
         <label>
           <input type="checkbox" id="accommodationCheckbox" style="display:inline-block !important; width:20px !important;"> 
@@ -1335,7 +1207,7 @@ input, select, button {
         async function searchAutocomplete(query, inputElement, statusId) {
             const statusEl = document.getElementById(statusId);
             
-            if (!query || query.trim().length < 3) {
+            if (!query || query.trim().length < 2) {
                 hideAutocomplete();
                 if(statusEl) statusEl.textContent = "";
                 return;
@@ -1344,7 +1216,7 @@ input, select, button {
             if(statusEl) statusEl.textContent = "Keresés...";
 
             try {
-                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=6&countrycodes=hu`;
+                const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=8&language=hu&format=json`;
                 
                 const response = await fetch(url);
                 if (!response.ok) throw new Error("Hiba");
@@ -1352,52 +1224,31 @@ input, select, button {
                 
                 if (statusEl) statusEl.textContent = "";
 
-                if (data && data.length > 0) {
-                    const suggestions = data.map(item => {
-                        const addr = item.address || {};
-                        const city = addr.city || addr.town || addr.village || addr.municipality || "";
-                        const postcode = addr.postcode || "";
-                        const road = addr.road || addr.pedestrian || addr.street || "";
-                        const houseNumber = addr.house_number || "";
-                        const name = item.name || "";
+                if (data && data.results && data.results.length > 0) {
+                    const validSuggestions = data.results
+                        .filter(item => item.country_code === 'HU') 
+                        .map(item => {
+                            let displayName = item.name;
+                            let details = "";
+                            
+                            if (item.admin1 && item.admin1 !== item.name) {
+                                details = item.admin1;
+                            }
 
-                        let formattedName = "";
+                            return {
+                                display_name: displayName,
+                                details: details,
+                                lat: item.latitude,
+                                lon: item.longitude
+                            };
+                        });
 
-                        if (!road && !houseNumber && (item.type === 'city' || item.type === 'town' || item.type === 'village' || item.type === 'administrative')) {
-                            formattedName = city;
-                        } 
-                        else if (city && road && !houseNumber) {
-                            formattedName = `${city}, ${road}`;
-                        }
-                        else if (city && road && houseNumber) {
-                            formattedName = `${city}, ${road} ${houseNumber}.`;
-                        }
-                        else if (city && name && name !== city) {
-                            formattedName = `${city}, ${name}`;
-                        }
-                        else {
-                            formattedName = item.display_name.split(',')[0];
-                            if(city && !formattedName.includes(city)) formattedName = `${city}, ${formattedName}`;
-                        }
-
-                        let listLabel = formattedName;
-                        let listDetails = "";
-                        
-                        const full = item.display_name;
-                        const county = addr.county || addr.state || "";
-                        const zip = addr.postcode || "";
-                        if (county || zip) listDetails = [zip, county].filter(Boolean).join(", ");
-
-                        return {
-                            display_name: listLabel,
-                            details: listDetails,
-                            clean_value: formattedName,
-                            lat: parseFloat(item.lat),
-                            lon: parseFloat(item.lon)
-                        };
-                    });
-
-                    showAutocomplete(inputElement, suggestions);
+                    if (validSuggestions.length > 0) {
+                        showAutocomplete(inputElement, validSuggestions);
+                    } else {
+                        if(statusEl) statusEl.textContent = "Nincs magyar találat.";
+                        hideAutocomplete();
+                    }
                 } else {
                     if(statusEl) statusEl.textContent = "Nincs találat.";
                     hideAutocomplete();
@@ -1436,11 +1287,11 @@ input, select, button {
                 
                 option.addEventListener('mousedown', function(e) {
                     e.preventDefault();
-                    inputElement.value = item.clean_value;
                     
-                    const key = item.clean_value.toLowerCase().trim();
+                    inputElement.value = item.display_name;
+                    
+                    const key = item.display_name.toLowerCase().trim();
                     addressCoordinatesCache[key] = { lat: item.lat, lon: item.lon };
-                    addressCoordinatesCache[item.display_name.toLowerCase().trim()] = { lat: item.lat, lon: item.lon };
                     
                     const statusEl = inputElement.parentElement.querySelector('.status-message');
                     if(statusEl) statusEl.textContent = "";
@@ -1472,8 +1323,8 @@ input, select, button {
                 if(this.disabled) return;
                 clearTimeout(timer);
                 const val = this.value;
-                if (val.length >= 3) {
-                    timer = setTimeout(() => searchAutocomplete(val, input, statusId), 400);
+                if (val.length >= 2) {
+                    timer = setTimeout(() => searchAutocomplete(val, input, statusId), 300);
                 } else {
                     hideAutocomplete();
                     const statusEl = document.getElementById(statusId);
@@ -1487,11 +1338,15 @@ input, select, button {
 
         async function geocodeFallback(address) {
             try {
-                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1&countrycodes=hu`;
+                const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(address)}&count=1&language=hu&format=json`;
                 const response = await fetch(url);
                 const data = await response.json();
-                if (data && data.length > 0) {
-                    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+                
+                if (data && data.results && data.results.length > 0) {
+                    const item = data.results[0];
+                    if (item.country_code === 'HU') {
+                        return { lat: item.latitude, lon: item.longitude };
+                    }
                 }
             } catch(e) {}
             return null;
@@ -1507,7 +1362,7 @@ input, select, button {
                         return data.routes[0].distance / 1000;
                     }
                 }
-                throw new Error('OSRM hiba');
+                throw new Error('Error');
             } catch (error) {
                 const R = 6371; 
                 const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -1534,18 +1389,20 @@ input, select, button {
                     const creativeRadios = document.querySelectorAll('input[name="creative_timing"]');
                     const creativeKnownRadios = document.querySelectorAll('input[name="creative_known"]');
                     const creativeInput = document.getElementById('county_creative');
+                    const creativeWrapper = document.getElementById('creative_details_wrapper');
 
                     function updateCreativeState() {
                         const timing = document.querySelector('input[name="creative_timing"]:checked').value;
                         const isDifferent = (timing === 'different');
                         
+                        creativeWrapper.style.display = isDifferent ? 'block' : 'none';
                         creativeKnownRadios.forEach(r => r.disabled = !isDifferent);
                         
                         const isKnown = document.querySelector('input[name="creative_known"]:checked').value === 'yes';
                         
                         if (isDifferent && isKnown) {
                             creativeInput.disabled = false;
-                            creativeInput.placeholder = "Kezdd el írni a címet...";
+                            creativeInput.placeholder = "Település neve...";
                         } else {
                             creativeInput.disabled = true;
                             creativeInput.value = "";
@@ -1561,17 +1418,19 @@ input, select, button {
                     const engagementNeededRadios = document.querySelectorAll('input[name="engagement_needed"]');
                     const engagementKnownRadios = document.querySelectorAll('input[name="engagement_known"]');
                     const engagementInput = document.getElementById('county_2');
+                    const engagementWrapper = document.getElementById('engagement_details_wrapper');
 
                     function updateEngagementState() {
                         const needed = document.querySelector('input[name="engagement_needed"]:checked').value === 'yes';
                         
+                        engagementWrapper.style.display = needed ? 'block' : 'none';
                         engagementKnownRadios.forEach(r => r.disabled = !needed);
                         
                         const isKnown = document.querySelector('input[name="engagement_known"]:checked').value === 'yes';
                         
                         if (needed && isKnown) {
                             engagementInput.disabled = false;
-                            engagementInput.placeholder = "Kezdd el írni a címet...";
+                            engagementInput.placeholder = "Település neve...";
                         } else {
                             engagementInput.disabled = true;
                             engagementInput.value = "";
@@ -1592,12 +1451,12 @@ input, select, button {
 
                         try {
                             let countyVal = document.getElementById('county').value.trim();
-                            if (!countyVal || countyVal.length < 2) throw new Error("Kérlek add meg a fő helyszínt!");
+                            if (!countyVal || countyVal.length < 2) throw new Error("Kérlek add meg a fő helyszínt (Település)!");
 
                             let key = countyVal.toLowerCase().trim();
                             let coords1 = addressCoordinatesCache[key];
                             if (!coords1) coords1 = await geocodeFallback(countyVal);
-                            if (!coords1) throw new Error(`Nem találom a fő helyszínt: "${countyVal}". Válassz a listából!`);
+                            if (!coords1) throw new Error(`Nem található a település: "${countyVal}". Válassz a listából!`);
 
                             const dist1 = await calculateDistance(baseLocation.lat, baseLocation.lon, coords1.lat, coords1.lon);
                             let distPrice = dist1 * distancePricePerKm;
@@ -1613,12 +1472,12 @@ input, select, button {
                                 const isKnown = document.querySelector('input[name="creative_known"]:checked').value === 'yes';
                                 if (isKnown) {
                                     let cVal = document.getElementById('county_creative').value.trim();
-                                    if (!cVal) throw new Error("Add meg a kreatív fotózás helyszínét!");
+                                    if (!cVal) throw new Error("A kreatív fotózáshoz 'Igen'-t jelöltél, de nem adtál meg települést!");
                                     
                                     let cKey = cVal.toLowerCase().trim();
                                     let coordsC = addressCoordinatesCache[cKey];
                                     if (!coordsC) coordsC = await geocodeFallback(cVal);
-                                    if (!coordsC) throw new Error(`Nem találom a kreatív helyszínt: "${cVal}"`);
+                                    if (!coordsC) throw new Error(`Nem található a kreatív fotózás helyszíne: "${cVal}"`);
 
                                     const distC = await calculateDistance(baseLocation.lat, baseLocation.lon, coordsC.lat, coordsC.lon);
                                     creativePrice += (distC * distancePricePerKm);
@@ -1635,12 +1494,12 @@ input, select, button {
                                 const isKnown = document.querySelector('input[name="engagement_known"]:checked').value === 'yes';
                                 if (isKnown) {
                                     let eVal = document.getElementById('county_2').value.trim();
-                                    if (!eVal) throw new Error("Add meg a jegyesfotózás helyszínét!");
+                                    if (!eVal) throw new Error("A jegyesfotózáshoz 'Igen'-t jelöltél, de nem adtál meg települést!");
                                     
                                     let eKey = eVal.toLowerCase().trim();
                                     let coordsE = addressCoordinatesCache[eKey];
                                     if (!coordsE) coordsE = await geocodeFallback(eVal);
-                                    if (!coordsE) throw new Error(`Nem találom a jegyes helyszínt: "${eVal}"`);
+                                    if (!coordsE) throw new Error(`Nem található a jegyes fotózás helyszíne: "${eVal}"`);
                                     
                                     const distE = await calculateDistance(baseLocation.lat, baseLocation.lon, coordsE.lat, coordsE.lon);
                                     engagementPrice += (distE * distancePricePerKm);
@@ -1679,6 +1538,7 @@ input, select, button {
 
     })();
   </script>
+</div>
 </div>
   </div>
     </div>

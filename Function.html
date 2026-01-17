@@ -1,0 +1,587 @@
+<div class="fb-element-type-custom-code__content">
+  <style>
+    .calculator {
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      position: relative;
+      padding: 10px 0;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #a06539;
+      margin: 30px 0 15px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: none;
+      padding: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      color: #333;
+    }
+
+    input[type="text"], select { 
+      width: 100% !important; 
+      max-width: 100% !important;
+      min-width: 250px !important; 
+      height: 50px !important; 
+      margin-bottom: 5px; 
+      padding: 0 15px !important; 
+      font-size: 16px !important; 
+      border-radius: 4px !important; 
+      border: 1px solid #ccc !important;
+      box-sizing: border-box !important;
+      background: #fff !important;
+      color: #000 !important;
+      display: block !important;
+      transition: all 0.3s;
+    }
+    
+    input[type="text"]:focus {
+      border-color: #a06539 !important;
+      outline: 2px solid rgba(160, 101, 57, 0.2) !important;
+    }
+
+    input[type="text"]:disabled {
+      background-color: #f5f5f5 !important;
+      color: #aaa !important;
+      border-color: #ddd !important;
+      cursor: not-allowed;
+    }
+
+    .slider-container { display: flex; flex-direction: column; margin-bottom: 25px; }
+    input[type="range"] { 
+        -webkit-appearance: none; appearance: none; 
+        background: #e0e0e0; border: none; height: 8px; 
+        width: 100% !important; border-radius: 4px; display: block; 
+    }
+    input[type="range"]::-webkit-slider-thumb { 
+        -webkit-appearance: none; appearance: none; 
+        width: 24px; height: 24px; border-radius: 50%; 
+        background: #a06539; cursor: pointer; border: 3px solid #fff; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+    }
+    .slider-value { margin-top: 10px; font-weight: bold; color: #a06539; font-size: 18px; text-align: right; }
+
+    button[type="submit"] { 
+      background-color: #a06539; 
+      color: white; 
+      cursor: pointer; 
+      font-weight: 700;
+      border: none; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 18px;
+      margin-top: 30px;
+      width: 100% !important;
+      font-size: 16px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover { background-color: #8b5530; }
+
+    .radio-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .radio-group label {
+        display: inline-flex;
+        align-items: center;
+        font-weight: normal;
+        cursor: pointer;
+        margin-bottom: 0;
+        font-size: 15px;
+    }
+    .radio-group input[type="radio"] { 
+        margin-right: 8px; 
+        accent-color: #a06539; 
+        width: 20px !important; 
+        height: 20px !important; 
+        margin-bottom: 0 !important;
+        display: inline-block !important;
+    }
+
+    .section-box {
+        margin-bottom: 10px;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+
+    .status-message {
+        font-size: 13px;
+        color: #a06539;
+        margin-bottom: 5px;
+        min-height: 20px;
+        font-weight: 500;
+    }
+    
+    #quoteResult { 
+      margin-top: 30px; 
+      padding: 25px; 
+      background: #f9f9f9; 
+      border-left: 6px solid #a06539; 
+      font-size: 16px; 
+      line-height: 1.6;
+      border-radius: 4px;
+    }
+
+    .autocomplete-suggestions { 
+        position: absolute; 
+        z-index: 2147483647 !important; 
+        background: white; 
+        border: 1px solid #ccc; 
+        max-height: 300px; 
+        overflow-y: auto; 
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
+        box-sizing: border-box; 
+        font-family: 'Poppins', sans-serif;
+        border-radius: 4px;
+    }
+    
+    .autocomplete-item { 
+        padding: 12px 15px; 
+        cursor: pointer; 
+        border-bottom: 1px solid #f0f0f0; 
+        color: #333; 
+        font-size: 14px; 
+        background: #fff; 
+        text-align: left;
+        line-height: 1.4;
+    }
+    .autocomplete-item:hover { background-color: #f5f5f5; color: #a06539; }
+    .autocomplete-item strong { color: #a06539; font-weight: 700; }
+    
+    .autocomplete-item small { color: #888; font-size: 12px; display: block; margin-top: 2px; }
+  </style>
+
+  <div class="calculator">
+    <form id="quoteForm">
+      
+      <h3>Alapadatok</h3>
+      
+      <label for="serviceLength">Mennyi időt töltsek az esküvőtökön?</label>
+      <div class="slider-container">
+        <input type="range" id="serviceLength" name="serviceLength" min="4" max="14" value="4">
+        <div class="slider-value">
+          <span id="serviceLengthValue">4</span> ÓRA
+        </div>
+      </div>
+
+      <label for="county">Esküvő helyszíne (Település)</label>
+      <div class="input-wrapper">
+        <input type="text" id="county" name="county" placeholder="Kezdd el írni a település nevét..." autocomplete="off">
+        <div id="status-county" class="status-message"></div>
+      </div>
+
+      <h3>Kreatív fotózás</h3>
+      <div class="section-box">
+          <label>Mikor szeretnétek megtartani?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="creative_timing" value="sameDay" checked> Aznap </label>
+            <label><input type="radio" name="creative_timing" value="different"> Külön napon </label>
+          </div>
+          
+          <div id="creative_details_wrapper" style="display:none;">
+              <label>Tudod már a helyszínt?</label>
+              <div class="radio-group">
+                  <label><input type="radio" name="creative_known" value="yes" disabled> Igen</label>
+                  <label><input type="radio" name="creative_known" value="no" checked disabled> Még nem</label>
+              </div>
+
+              <div class="input-wrapper">
+                <input type="text" id="county_creative" name="county_creative" placeholder="Település neve..." autocomplete="off" disabled>
+                <div id="status-county_creative" class="status-message"></div>
+              </div>
+          </div>
+      </div>
+
+      <h3>Jegyesfotózás</h3>
+      <div class="section-box">
+          <label>Szeretnétek jegyesfotózást?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="engagement_needed" value="no" checked> Nem</label>
+            <label><input type="radio" name="engagement_needed" value="yes"> Igen</label>
+          </div>
+
+          <div id="engagement_details_wrapper" style="display:none;">
+              <label>Tudod már a helyszínt?</label>
+              <div class="radio-group">
+                  <label><input type="radio" name="engagement_known" value="yes" disabled> Igen</label>
+                  <label><input type="radio" name="engagement_known" value="no" checked disabled> Még nem</label>
+              </div>
+
+              <div class="input-wrapper">
+                <input type="text" id="county_2" name="county_2" placeholder="Település neve..." autocomplete="off" disabled>
+                <div id="status-county_2" class="status-message"></div>
+              </div>
+          </div>
+      </div>
+
+      <h3>Egyéb</h3>
+      <div class="checkbox-radio-container">
+        <label>
+          <input type="checkbox" id="accommodationCheckbox" style="display:inline-block !important; width:20px !important;"> 
+          Igény esetén szálláshelyet biztosítok
+        </label>
+      </div>
+      
+      <button type="submit">Mennyibe fog kerülni?</button>
+
+      <div id="quoteResult"></div>
+    </form>
+  </div>
+
+  <script>
+    (function() {
+        const baseLocation = { lat: 47.5434982, lon: 19.0752115 };
+        const distancePricePerKm = 200;
+        const addressCoordinatesCache = {};
+        let activeDropdown = null;
+
+        async function searchAutocomplete(query, inputElement, statusId) {
+            const statusEl = document.getElementById(statusId);
+            
+            if (!query || query.trim().length < 2) {
+                hideAutocomplete();
+                if(statusEl) statusEl.textContent = "";
+                return;
+            }
+            
+            if(statusEl) statusEl.textContent = "Keresés...";
+
+            try {
+                const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=8&language=hu&format=json`;
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Hiba");
+                const data = await response.json();
+                
+                if (statusEl) statusEl.textContent = "";
+
+                if (data && data.results && data.results.length > 0) {
+                    const validSuggestions = data.results
+                        .filter(item => item.country_code === 'HU') 
+                        .map(item => {
+                            let displayName = item.name;
+                            let details = "";
+                            
+                            if (item.admin1 && item.admin1 !== item.name) {
+                                details = item.admin1;
+                            }
+
+                            return {
+                                display_name: displayName,
+                                details: details,
+                                lat: item.latitude,
+                                lon: item.longitude
+                            };
+                        });
+
+                    if (validSuggestions.length > 0) {
+                        showAutocomplete(inputElement, validSuggestions);
+                    } else {
+                        if(statusEl) statusEl.textContent = "Nincs magyar találat.";
+                        hideAutocomplete();
+                    }
+                } else {
+                    if(statusEl) statusEl.textContent = "Nincs találat.";
+                    hideAutocomplete();
+                }
+            } catch (error) {
+                if(statusEl) statusEl.textContent = "";
+            }
+        }
+
+        function showAutocomplete(inputElement, suggestions) {
+            hideAutocomplete();
+            
+            const div = document.createElement('div');
+            div.className = 'autocomplete-suggestions';
+            
+            const rect = inputElement.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
+            div.style.left = (rect.left + scrollLeft) + 'px';
+            div.style.top = (rect.bottom + scrollTop) + 'px';
+            div.style.width = rect.width + 'px';
+
+            suggestions.forEach((item) => {
+                const option = document.createElement('div');
+                option.className = 'autocomplete-item';
+                
+                const term = inputElement.value.split(' ')[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(`(${term})`, "gi");
+                const highlighted = item.display_name.replace(regex, "<strong>$1</strong>");
+
+                option.innerHTML = `<div>${highlighted}</div>`;
+                if(item.details) {
+                    option.innerHTML += `<small>${item.details}</small>`;
+                }
+                
+                option.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    
+                    inputElement.value = item.display_name;
+                    
+                    const key = item.display_name.toLowerCase().trim();
+                    addressCoordinatesCache[key] = { lat: item.lat, lon: item.lon };
+                    
+                    const statusEl = inputElement.parentElement.querySelector('.status-message');
+                    if(statusEl) statusEl.textContent = "";
+                    hideAutocomplete();
+                });
+                
+                div.appendChild(option);
+            });
+            
+            document.body.appendChild(div);
+            activeDropdown = div;
+        }
+
+        function hideAutocomplete() {
+            if (activeDropdown) {
+                activeDropdown.remove();
+                activeDropdown = null;
+            }
+        }
+
+        function setupAutocomplete(inputId, statusId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            if (input.dataset.initialized === "true") return;
+            input.dataset.initialized = "true";
+
+            let timer;
+            input.addEventListener('input', function() {
+                if(this.disabled) return;
+                clearTimeout(timer);
+                const val = this.value;
+                if (val.length >= 2) {
+                    timer = setTimeout(() => searchAutocomplete(val, input, statusId), 300);
+                } else {
+                    hideAutocomplete();
+                    const statusEl = document.getElementById(statusId);
+                    if(statusEl) statusEl.textContent = "";
+                }
+            });
+            input.addEventListener('blur', function() { setTimeout(hideAutocomplete, 200); });
+            window.addEventListener('scroll', hideAutocomplete, true);
+            window.addEventListener('resize', hideAutocomplete);
+        }
+
+        async function geocodeFallback(address) {
+            try {
+                const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(address)}&count=1&language=hu&format=json`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data && data.results && data.results.length > 0) {
+                    const item = data.results[0];
+                    if (item.country_code === 'HU') {
+                        return { lat: item.latitude, lon: item.longitude };
+                    }
+                }
+            } catch(e) {}
+            return null;
+        }
+
+        async function calculateDistance(lat1, lon1, lat2, lon2) {
+            try {
+                const url = `https://router.project-osrm.org/route/v1/driving/${lon1},${lat1};${lon2},${lat2}?overview=false`;
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
+                        return data.routes[0].distance / 1000;
+                    }
+                }
+                throw new Error('Error');
+            } catch (error) {
+                const R = 6371; 
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLon = (lon2 - lon1) * Math.PI / 180;
+                const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            }
+        }
+
+        function checkAndInit() {
+            const quoteForm = document.getElementById('quoteForm');
+            if (quoteForm) {
+                setupAutocomplete('county', 'status-county');
+                setupAutocomplete('county_creative', 'status-county_creative');
+                setupAutocomplete('county_2', 'status-county_2');
+
+                if (quoteForm.dataset.listenerAttached !== "true") {
+                    quoteForm.dataset.listenerAttached = "true";
+                    
+                    document.getElementById('serviceLength')?.addEventListener('input', (e) => {
+                        document.getElementById('serviceLengthValue').textContent = e.target.value;
+                    });
+                    
+                    const creativeRadios = document.querySelectorAll('input[name="creative_timing"]');
+                    const creativeKnownRadios = document.querySelectorAll('input[name="creative_known"]');
+                    const creativeInput = document.getElementById('county_creative');
+                    const creativeWrapper = document.getElementById('creative_details_wrapper');
+
+                    function updateCreativeState() {
+                        const timing = document.querySelector('input[name="creative_timing"]:checked').value;
+                        const isDifferent = (timing === 'different');
+                        
+                        creativeWrapper.style.display = isDifferent ? 'block' : 'none';
+                        creativeKnownRadios.forEach(r => r.disabled = !isDifferent);
+                        
+                        const isKnown = document.querySelector('input[name="creative_known"]:checked').value === 'yes';
+                        
+                        if (isDifferent && isKnown) {
+                            creativeInput.disabled = false;
+                            creativeInput.placeholder = "Település neve...";
+                        } else {
+                            creativeInput.disabled = true;
+                            creativeInput.value = "";
+                            creativeInput.placeholder = isDifferent ? "Helyszín később..." : "Aznap, a fő helyszínen.";
+                            document.getElementById('status-county_creative').textContent = "";
+                        }
+                    }
+
+                    creativeRadios.forEach(r => r.addEventListener('change', updateCreativeState));
+                    creativeKnownRadios.forEach(r => r.addEventListener('change', updateCreativeState));
+                    updateCreativeState();
+
+                    const engagementNeededRadios = document.querySelectorAll('input[name="engagement_needed"]');
+                    const engagementKnownRadios = document.querySelectorAll('input[name="engagement_known"]');
+                    const engagementInput = document.getElementById('county_2');
+                    const engagementWrapper = document.getElementById('engagement_details_wrapper');
+
+                    function updateEngagementState() {
+                        const needed = document.querySelector('input[name="engagement_needed"]:checked').value === 'yes';
+                        
+                        engagementWrapper.style.display = needed ? 'block' : 'none';
+                        engagementKnownRadios.forEach(r => r.disabled = !needed);
+                        
+                        const isKnown = document.querySelector('input[name="engagement_known"]:checked').value === 'yes';
+                        
+                        if (needed && isKnown) {
+                            engagementInput.disabled = false;
+                            engagementInput.placeholder = "Település neve...";
+                        } else {
+                            engagementInput.disabled = true;
+                            engagementInput.value = "";
+                            engagementInput.placeholder = needed ? "Helyszín később..." : "Nem kérek jegyesfotózást.";
+                            document.getElementById('status-county_2').textContent = "";
+                        }
+                    }
+
+                    engagementNeededRadios.forEach(r => r.addEventListener('change', updateEngagementState));
+                    engagementKnownRadios.forEach(r => r.addEventListener('change', updateEngagementState));
+                    updateEngagementState();
+
+                    quoteForm.addEventListener('submit', async function(event) {
+                        event.preventDefault();
+                        const resDiv = document.getElementById('quoteResult');
+                        resDiv.innerHTML = "Számolás...";
+                        resDiv.style.color = "#333";
+
+                        try {
+                            let countyVal = document.getElementById('county').value.trim();
+                            if (!countyVal || countyVal.length < 2) throw new Error("Kérlek add meg a fő helyszínt (Település)!");
+
+                            let key = countyVal.toLowerCase().trim();
+                            let coords1 = addressCoordinatesCache[key];
+                            if (!coords1) coords1 = await geocodeFallback(countyVal);
+                            if (!coords1) throw new Error(`Nem található a település: "${countyVal}". Válassz a listából!`);
+
+                            const dist1 = await calculateDistance(baseLocation.lat, baseLocation.lon, coords1.lat, coords1.lon);
+                            let distPrice = dist1 * distancePricePerKm;
+
+                            let creativePrice = 0;
+                            const creativeTiming = document.querySelector('input[name="creative_timing"]:checked').value;
+                            
+                            if (creativeTiming === 'different') {
+                                const sLen = parseFloat(document.getElementById('serviceLength').value);
+                                const baseC = (sLen <= 10) ? (28000 + 2000 * (10 - sLen)) : 25000;
+                                creativePrice = baseC;
+
+                                const isKnown = document.querySelector('input[name="creative_known"]:checked').value === 'yes';
+                                if (isKnown) {
+                                    let cVal = document.getElementById('county_creative').value.trim();
+                                    if (!cVal) throw new Error("A kreatív fotózáshoz 'Igen'-t jelöltél, de nem adtál meg települést!");
+                                    
+                                    let cKey = cVal.toLowerCase().trim();
+                                    let coordsC = addressCoordinatesCache[cKey];
+                                    if (!coordsC) coordsC = await geocodeFallback(cVal);
+                                    if (!coordsC) throw new Error(`Nem található a kreatív fotózás helyszíne: "${cVal}"`);
+
+                                    const distC = await calculateDistance(baseLocation.lat, baseLocation.lon, coordsC.lat, coordsC.lon);
+                                    creativePrice += (distC * distancePricePerKm);
+                                }
+                            }
+
+                            let engagementPrice = 0;
+                            const engagementNeeded = document.querySelector('input[name="engagement_needed"]:checked').value === 'yes';
+                            
+                            if (engagementNeeded) {
+                                let baseE = 35000;
+                                engagementPrice = baseE;
+
+                                const isKnown = document.querySelector('input[name="engagement_known"]:checked').value === 'yes';
+                                if (isKnown) {
+                                    let eVal = document.getElementById('county_2').value.trim();
+                                    if (!eVal) throw new Error("A jegyesfotózáshoz 'Igen'-t jelöltél, de nem adtál meg települést!");
+                                    
+                                    let eKey = eVal.toLowerCase().trim();
+                                    let coordsE = addressCoordinatesCache[eKey];
+                                    if (!coordsE) coordsE = await geocodeFallback(eVal);
+                                    if (!coordsE) throw new Error(`Nem található a jegyes fotózás helyszíne: "${eVal}"`);
+                                    
+                                    const distE = await calculateDistance(baseLocation.lat, baseLocation.lon, coordsE.lat, coordsE.lon);
+                                    engagementPrice += (distE * distancePricePerKm);
+                                }
+                            }
+
+                            let accomPrice = 0;
+                            const sLen = parseFloat(document.getElementById('serviceLength').value);
+                            if (!document.getElementById('accommodationCheckbox').checked && sLen >= 12) {
+                                accomPrice = 15000;
+                            }
+
+                            let servicePrice = 0;
+                            const p4=40000, p8=140000, p14=230000;
+                            if (sLen <= 4) servicePrice = p4;
+                            else if (sLen <= 8) servicePrice = p4 + (sLen - 4) * (p8 - p4) / 4;
+                            else if (sLen <= 14) servicePrice = p8 + (sLen - 8) * (p14 - p8) / 6;
+                            else servicePrice = p14;
+
+                            let total = (110000 + servicePrice) * 0.95; 
+                            total += distPrice + creativePrice + engagementPrice + accomPrice;
+                            total = Math.round(total / 5000) * 5000;
+
+                            resDiv.innerHTML = `Várható összeg:<br><strong style="font-size:24px; color:#a06539">${new Intl.NumberFormat('hu-HU').format(total)} Ft</strong>`;
+
+                        } catch (err) {
+                            resDiv.innerHTML = `<span style="color:red; font-weight:bold;">Hiba:</span> ${err.message}`;
+                        }
+                    });
+                }
+            }
+        }
+
+        setInterval(checkAndInit, 1000);
+        checkAndInit();
+
+    })();
+  </script>
+</div>
